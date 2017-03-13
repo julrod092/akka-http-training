@@ -27,7 +27,7 @@ class Routes extends Directives with JsonSupport {
       put {
         entity(as[User]){ user =>
           println(s"User updated: ${user.name}")
-          complete(StatusCodes.OK)---
+          complete(StatusCodes.OK)
         }
       } ~
       delete {
