@@ -1,22 +1,20 @@
 package com.example
 
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import akka.http.scaladsl.model.StatusCodes
+import java.util.UUID
+
+import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.{Directives, Route}
-import spray.json._
+import com.example.entity.User
+import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
+import io.circe.generic.auto._
+import io.circe.syntax._
 
-final case class User (name: String)
-
-trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
-  implicit val userFormat = jsonFormat1(User)
-}
-
-class Routes extends Directives with JsonSupport {
+class Routes extends Directives {
 
   val route: Route =
     path("user") {
       get {
-        complete(User("Julian"))
+        complete(HttpResponse(StatusCodes.OK, entity = User(UUID.randomUUID(), "julrod092", "Julian", "Rodriguez").asJson.toString))
       } ~
       post {
         entity(as[User]) { user =>
