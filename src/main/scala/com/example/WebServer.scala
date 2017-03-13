@@ -13,7 +13,6 @@ object WebServer extends App {
   implicit val materializer = ActorMaterializer()
   implicit val executionContext = system.dispatcher
 
-
   val userRoute = new Routes
 
   val bindingFuture = Http().bindAndHandle(userRoute.route, "localhost", 8080)

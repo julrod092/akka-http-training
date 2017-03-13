@@ -5,3 +5,8 @@ script:
 - sbt clean test
 jdk: oraclejdk8
 sudo: false
+# whitelist
+branches:
+  only:
+    - master
+    - develop
