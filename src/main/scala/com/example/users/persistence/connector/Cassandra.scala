@@ -1,7 +1,8 @@
-package com.example.connector
+package com.example.users.persistence.connector
 
 import com.outworkers.phantom.connectors.{CassandraConnection, ContactPoints}
 import com.typesafe.config.ConfigFactory
+
 
 import scala.collection.JavaConverters._
 

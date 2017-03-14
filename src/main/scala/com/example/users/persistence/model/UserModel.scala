@@ -1,8 +1,7 @@
-package com.example.model
+package com.example.users.persistence.model
 
-import com.example.entity.User
-import com.outworkers.phantom.column.TimeUUIDColumn
-import com.outworkers.phantom.dsl.{CassandraTable, ClusteringOrder, ConsistencyLevel, PartitionKey, ResultSet, RootConnector, Row, StringColumn}
+import com.example.users.persistence.entity.User
+import com.outworkers.phantom.dsl._
 
 import scala.concurrent.Future
 
@@ -10,9 +9,7 @@ class UserModel extends CassandraTable[ConcreteUserModel, User] {
 
   override def tableName: String = "user_table"
 
-  object id extends TimeUUIDColumn(this) with ClusteringOrder {
-    override lazy val name = "user_id"
-  }
+  object id extends IntColumn(this)
 
   object userName extends StringColumn(this) with PartitionKey
 
@@ -25,11 +22,11 @@ class UserModel extends CassandraTable[ConcreteUserModel, User] {
 
 abstract class ConcreteUserModel extends UserModel with RootConnector {
 
-  def getUserByUsername(userName: String): Future[List[User]] = {
+  def getUserByUsername(userName: String): Future[Option[User]] = {
     select
       .where(_.userName eqs userName)
       .consistencyLevel_=(ConsistencyLevel.ONE)
-      .fetch()
+      .one()
   }
 
   def storeUser(user: User): Future[ResultSet] = {
@@ -37,7 +34,7 @@ abstract class ConcreteUserModel extends UserModel with RootConnector {
       .value(_.id, user.id)
       .value(_.userName, user.userName)
       .value(_.name, user.name)
-      .value(_.lastName, user.)
+      .value(_.lastName, user.lastName)
       .consistencyLevel_=(ConsistencyLevel.ONE)
       .future()
   }
