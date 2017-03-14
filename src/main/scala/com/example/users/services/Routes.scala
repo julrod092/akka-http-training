@@ -12,29 +12,28 @@ import io.circe.generic.auto._
 class Routes extends Directives with ProductionDatabase with Cassandra.connector.Connector {
 
   val route: Route =
-    path("user") {
-      pathPrefix(Segment) { id =>
-        get {
-          complete(id)
-        } ~
-          delete {
-            entity(as[User]) { user =>
-              println(s"User deleted: ${user.name}")
-              complete(StatusCodes.OK)
-            }
-          }
+    path("user" / Segment) { username =>
+      get {
+        val response = UserService.getUserByUserName(username)
+        complete(response)
       } ~
+        delete {
+          println(s"User deleted: $username")
+          complete(StatusCodes.OK)
+        }
+    } ~
+      path("user") {
         post {
           entity(as[User]) { user =>
             UserService.storeUser(user)
             complete(StatusCodes.OK)
           }
         } ~
-        put {
-          entity(as[User]) { user =>
-            println(s"User updated: ${user.name}")
-            complete(StatusCodes.OK)
+          put {
+            entity(as[User]) { user =>
+              println(s"User updated: ${user.name}")
+              complete(StatusCodes.OK)
+            }
           }
-        }
-    }
+      }
 }

@@ -5,8 +5,8 @@ import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import com.example.users.persistence.database.ProductionDatabase
 import com.example.users.services.Routes
-import scala.concurrent.duration._
 
+import scala.concurrent.duration._
 import scala.io.StdIn
 
 object WebServer extends App with ProductionDatabase {
@@ -17,7 +17,8 @@ object WebServer extends App with ProductionDatabase {
   implicit val executionContext = system.dispatcher
 
   val userRoute = new Routes
-  database.create(5 seconds)
+
+  database.create(1.seconds)
 
   val bindingFuture = Http().bindAndHandle(userRoute.route, "localhost", 8080)
   println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")

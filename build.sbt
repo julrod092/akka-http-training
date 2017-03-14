@@ -18,7 +18,6 @@ libraryDependencies ++= {
 
   Seq(
     "com.typesafe.akka"   %% "akka-http"            % akkaV,
-    "com.typesafe.akka"   %% "akka-http-spray-json" % akkaV,
     "com.outworkers"      %% "phantom-dsl"          % phantomV,
     "io.circe"            %% "circe-core"           % circeVersion,
     "io.circe"            %% "circe-generic"        % circeVersion,
