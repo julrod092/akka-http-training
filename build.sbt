@@ -1,4 +1,4 @@
-name := "entrenamiento_starbucks"
+name := "akka_http_training"
 
 version := "1.0"
 

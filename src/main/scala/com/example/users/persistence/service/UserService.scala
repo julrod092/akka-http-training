@@ -8,14 +8,20 @@ import scala.concurrent.Future
 
 trait UserService extends ProductionDatabase {
 
-  def getUserByUserName (username: String): Future[Option[User]] = {
-    database.userModel.getUserByUsername(username)
+  def getUserByUserName (userName: String): Future[Option[User]] = {
+    database.userModel.getUserByUserName(userName)
   }
 
   def storeUser (user: User): Future[ResultSet] = {
     for {
       store <- database.userModel.storeUser(user)
     } yield store
+  }
+
+  def delete(userName: String): Future[ResultSet] = {
+    for {
+      delete <- database.userModel.deleteByUserName(userName)
+    } yield delete
   }
 }
 

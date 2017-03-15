@@ -22,7 +22,7 @@ class UserModel extends CassandraTable[ConcreteUserModel, User] {
 
 abstract class ConcreteUserModel extends UserModel with RootConnector {
 
-  def getUserByUsername(userName: String): Future[Option[User]] = {
+  def getUserByUserName(userName: String): Future[Option[User]] = {
     select
       .where(_.userName eqs userName)
       .consistencyLevel_=(ConsistencyLevel.ONE)
@@ -35,6 +35,13 @@ abstract class ConcreteUserModel extends UserModel with RootConnector {
       .value(_.userName, user.userName)
       .value(_.name, user.name)
       .value(_.lastName, user.lastName)
+      .consistencyLevel_=(ConsistencyLevel.ONE)
+      .future()
+  }
+
+  def deleteByUserName(userName: String): Future[ResultSet] = {
+    delete
+      .where(_.userName eqs userName)
       .consistencyLevel_=(ConsistencyLevel.ONE)
       .future()
   }

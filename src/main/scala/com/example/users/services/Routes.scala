@@ -8,17 +8,17 @@ import com.example.users.persistence.entity.User
 import com.example.users.persistence.service.UserService
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class Routes extends Directives with ProductionDatabase with Cassandra.connector.Connector {
 
   val route: Route =
     path("user" / Segment) { username =>
       get {
-        val response = UserService.getUserByUserName(username)
-        complete(response)
+        complete(UserService.getUserByUserName(username))
       } ~
         delete {
-          println(s"User deleted: $username")
+          UserService.delete(username)
           complete(StatusCodes.OK)
         }
     } ~
@@ -31,7 +31,7 @@ class Routes extends Directives with ProductionDatabase with Cassandra.connector
         } ~
           put {
             entity(as[User]) { user =>
-              println(s"User updated: ${user.name}")
+              UserService.delete(user.userName).map(_ => UserService.storeUser(user))
               complete(StatusCodes.OK)
             }
           }
