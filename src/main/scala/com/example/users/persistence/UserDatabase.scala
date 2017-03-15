@@ -1,7 +1,7 @@
-package com.example.users.persistence.database
+package com.example.users.persistence
 
-import com.example.users.persistence.connector.Cassandra._
-import com.example.users.persistence.model.ConcreteUserModel
+import com.example.infrastructure.dao.UserDAO
+import com.example.users.persistence.Cassandra._
 import com.outworkers.phantom.dsl._
 
 
@@ -13,10 +13,10 @@ trait ProductionDatabase extends ProductionDatabaseProvider {
   override val database = ProductionDB
 }
 
-object ProductionDB extends UserDatabase(connector)
+object ProductionDB extends UserDatabase(cassandraConnector)
 
 class UserDatabase(override val connector: KeySpaceDef) extends Database[UserDatabase](connector) {
 
-  object userModel extends ConcreteUserModel with connector.Connector
+  object userDAO extends UserDAO with connector.Connector
 
 }

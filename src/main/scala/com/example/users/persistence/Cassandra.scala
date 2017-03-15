@@ -1,8 +1,7 @@
-package com.example.users.persistence.connector
+package com.example.users.persistence
 
 import com.outworkers.phantom.connectors.{CassandraConnection, ContactPoints}
 import com.typesafe.config.ConfigFactory
-
 
 import scala.collection.JavaConverters._
 
@@ -18,7 +17,7 @@ object Cassandra {
   private val username = cassandraConf.getString("cassandra.username")
   private val password = cassandraConf.getString("cassandra.password")
 
-  lazy val connector: CassandraConnection = ContactPoints(hosts.asScala)
+  lazy val cassandraConnector: CassandraConnection = ContactPoints(hosts.asScala)
     .withClusterBuilder(_.withCredentials(username, password))
     .keySpace(keyspace)
 }
