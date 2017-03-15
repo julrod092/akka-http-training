@@ -1,7 +1,7 @@
-package com.example.users.persistence
+package com.example.infrastructure.database
 
 import com.example.infrastructure.dao.UserDAO
-import com.example.users.persistence.Cassandra._
+import com.example.infrastructure.database.Cassandra._
 import com.outworkers.phantom.dsl._
 
 

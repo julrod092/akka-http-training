@@ -1,7 +1,7 @@
 package com.example.infrastructure.dao
 
+import com.example.infrastructure.database.UserModel
 import com.example.infrastructure.dto.UserDTO
-import com.example.users.persistence.UserModel
 import com.outworkers.phantom.dsl._
 
 import scala.concurrent.Future

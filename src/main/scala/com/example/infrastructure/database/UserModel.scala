@@ -1,4 +1,4 @@
-package com.example.users.persistence
+package com.example.infrastructure.database
 
 import com.example.infrastructure.dao.UserDAO
 import com.example.infrastructure.dto.UserDTO

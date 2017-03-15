@@ -3,7 +3,7 @@ package com.example.infrastructure
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
-import com.example.users.persistence.ProductionDatabase
+import com.example.infrastructure.database.ProductionDatabase
 import com.example.users.services.UserRoute
 
 import scala.concurrent.duration._

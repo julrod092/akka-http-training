@@ -1,7 +1,7 @@
-package com.example.users.services
+package com.example.users.persistence
 
+import com.example.infrastructure.database.ProductionDatabase
 import com.example.infrastructure.dto.UserDTO
-import com.example.users.persistence.ProductionDatabase
 import com.outworkers.phantom.dsl._
 
 import scala.concurrent.Future
@@ -12,7 +12,13 @@ trait UserRepository extends ProductionDatabase {
     database.userDAO.getUserByUserName(userName)
   }
 
-  def addOrUpdate(user: UserDTO): Future[ResultSet] = {
+  def add(user: UserDTO): Future[ResultSet] = {
+    for {
+      store <- database.userDAO.storeUser(user)
+    } yield store
+  }
+
+  def update(user: UserDTO): Future[ResultSet] = {
     for {
       store <- database.userDAO.storeUser(user)
     } yield store

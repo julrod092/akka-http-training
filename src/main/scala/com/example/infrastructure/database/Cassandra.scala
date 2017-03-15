@@ -1,4 +1,4 @@
-package com.example.users.persistence
+package com.example.infrastructure.database
 
 import com.outworkers.phantom.connectors.{CassandraConnection, ContactPoints}
 import com.typesafe.config.ConfigFactory
