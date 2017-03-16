@@ -11,6 +11,9 @@ after_success:
 
 jdk: oraclejdk8
 
+services:
+  - cassandra
+
 sudo: false
 
 # whitelist
