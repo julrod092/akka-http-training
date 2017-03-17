@@ -1,6 +1,6 @@
 package com.example.infrastructure.database
 
-import com.outworkers.phantom.connectors.{CassandraConnection, ContactPoints}
+import com.outworkers.phantom.connectors.{CassandraConnection, ContactPoint, ContactPoints}
 import com.typesafe.config.ConfigFactory
 
 import scala.collection.JavaConverters._
@@ -20,4 +20,6 @@ object Cassandra {
   lazy val cassandraConnector: CassandraConnection = ContactPoints(hosts.asScala)
     .withClusterBuilder(_.withCredentials(username, password))
     .keySpace(keyspace)
+
+  lazy val testConnector: CassandraConnection = ContactPoint.embedded.noHeartbeat().keySpace("my_app_test")
 }

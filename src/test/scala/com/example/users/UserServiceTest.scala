@@ -1,4 +1,4 @@
-package com.example.users.sevices
+package com.example.users
 
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.testkit.ScalatestRouteTest
