@@ -26,5 +26,5 @@ object WebServer extends App with ProductionDatabase {
 
   bindingFuture
     .flatMap(_.unbind())
-    .onComplete(_ ⇒ system.terminate())
+    .onComplete(_ => system.terminate())
 }

@@ -19,7 +19,7 @@ class UserRoute(userRepository: UserRepository)(implicit private val ec: Executi
       } ~
       delete {
         complete(userRepository.delete(username).map(future =>
-          HttpResponse(OK, entity = s"User deleted: $username")
+          HttpResponse(OK, entity = s"User deleted: $future")
         ).recover{case e: Exception => HttpResponse(BadRequest, entity = e.toString)})
       }
     } ~
@@ -27,14 +27,14 @@ class UserRoute(userRepository: UserRepository)(implicit private val ec: Executi
       post {
         entity(as[UserDTO]) { user =>
           complete(userRepository.add(user).map(future =>
-            HttpResponse(OK, entity = s"User created: ${user.userName}")
+            HttpResponse(OK, entity = s"User created: ${future.userName}")
           ).recover{case e: Exception => HttpResponse(BadRequest, entity = e.toString)})
         }
       } ~
       put {
         entity(as[UserDTO]) { user =>
           complete(userRepository.update(user).map(future =>
-            HttpResponse(OK, entity = s"User updated: ${user.userName}")
+            HttpResponse(OK, entity = s"User updated: ${future.userName}")
           ).recover{case e: Exception => HttpResponse(BadRequest, entity = e.toString)})
         }
       } ~

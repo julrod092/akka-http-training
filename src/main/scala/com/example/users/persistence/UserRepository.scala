@@ -12,19 +12,19 @@ trait UserRepository extends ProductionDatabase {
     database.userDAO.getUserByUserName(userName)
   }
 
-  def add(user: UserDTO): Future[ResultSet] = {
+  def add(user: UserDTO): Future[UserDTO] = {
     for {
       store <- database.userDAO.storeUser(user)
     } yield store
   }
 
-  def update(user: UserDTO): Future[ResultSet] = {
+  def update(user: UserDTO): Future[UserDTO] = {
     for {
       store <- database.userDAO.storeUser(user)
     } yield store
   }
 
-  def delete(userName: String) : Future[ResultSet] = {
+  def delete(userName: String) : Future[String] = {
     for {
       delete <- database.userDAO.deleteUser(userName)
     } yield delete

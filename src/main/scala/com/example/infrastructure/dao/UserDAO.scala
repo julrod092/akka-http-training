@@ -15,20 +15,22 @@ abstract class UserDAO extends UserModel with RootConnector {
       .one()
   }
 
-  def storeUser(user: UserDTO): Future[ResultSet] = {
-    insert
+  def storeUser(user: UserDTO): Future[UserDTO] = {
+    val insertQuery = insert
       .value(_.id, user.id)
       .value(_.userName, user.userName)
       .value(_.name, user.name)
       .value(_.lastName, user.lastName)
       .consistencyLevel_=(ConsistencyLevel.ONE)
       .future()
+    insertQuery.map(_ => user)
   }
 
-  def deleteUser(userName: String): Future[ResultSet] = {
-    delete
+  def deleteUser(userName: String): Future[String] = {
+    val deleteQuery = delete
       .where(_.userName eqs userName)
       .consistencyLevel_=(ConsistencyLevel.ONE)
       .future()
+    deleteQuery.map(_ => userName)
   }
 }

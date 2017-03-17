@@ -1,7 +1,8 @@
 package com.example.users.sevices
 
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model._
 import akka.http.scaladsl.testkit.ScalatestRouteTest
+import akka.util.ByteString
 import com.example.users.persistence.UserRepository
 import com.example.users.services.UserRoute
 import org.scalatest.{Matchers, WordSpec}
@@ -32,9 +33,25 @@ class UserServiceTest extends WordSpec with Matchers with ScalatestRouteTest {
       }
     }
 
-      "Verify if a user exist, if exist, return the user data" in {
+    "Verify if a user exist, if exist, return the user data" in {
       Get("/user/julrod092") ~> userRoute.route ~> check {
-        responseAs[String] shouldEqual """{"id":"5d50893c-0995-11e7-93ae-92361f002671","name":"julrod092","lastName":"Julian","userName":"Rodriguez"}"""
+        responseAs[String] shouldEqual """{"id":"5d50893c-0995-11e7-93ae-92361f002671","name":"Julian","lastName":"Rodriguez","userName":"julrod092"}"""
+      }
+    }
+
+    "Insert a user" in {
+
+      val jsonRequest = ByteString(
+        """{"id": "67856d17-2724-49b0-ad76-f6ccc6390b58","userName": "julrod0921","name": "Julian","lastName": "Rodriguez"}""".stripMargin
+      )
+
+      val postRequest = HttpRequest(
+        HttpMethods.POST,
+        uri = "/user",
+        entity = HttpEntity(MediaTypes.`application/json`, jsonRequest))
+
+      postRequest ~> userRoute.route ~> check {
+        responseAs[String] shouldEqual "User created: julrod0921"
       }
     }
   }
