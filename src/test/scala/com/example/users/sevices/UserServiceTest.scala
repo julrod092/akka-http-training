@@ -1,28 +1,15 @@
-package com.example.users.services
-
-import java.util.UUID
+package com.example.users.sevices
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import com.example.infrastructure.database.ProductionDatabase
-import com.example.infrastructure.dto.UserDTO
 import com.example.users.persistence.UserRepository
+import com.example.users.services.UserRoute
 import org.scalatest.{Matchers, WordSpec}
 
-import scala.concurrent.duration._
 
+class UserServiceTest extends WordSpec with Matchers with ScalatestRouteTest {
 
-class UserServiceTest extends WordSpec with Matchers with ScalatestRouteTest with ProductionDatabase {
-
-  val userRoute = new UserRoute
-
-  override def beforeAll(): Unit = {
-    database.create(2.seconds)
-  }
-
-  override def afterAll(): Unit = {
-    database.drop(5.seconds)
-  }
+  val userRoute = new UserRoute(UserRepository)
 
   "User service" should {
 
@@ -39,23 +26,17 @@ class UserServiceTest extends WordSpec with Matchers with ScalatestRouteTest wit
       }
     }
 
-    /*"Create user and get it" in {
-      Post("/user") ~> userRoute.route ~> check {
-
-      }
-    }
-
-    "Verify if a user exist, if not, then return and empty string" in {
+    "Verify if a user exist, if not, then return nothing" in {
       Get("/user/julrod0921") ~> userRoute.route ~> check {
         responseAs[String] shouldEqual ""
       }
     }
 
-    "Verify if a user exist, if exist, return the user data" in {
+      "Verify if a user exist, if exist, return the user data" in {
       Get("/user/julrod092") ~> userRoute.route ~> check {
         responseAs[String] shouldEqual """{"id":"5d50893c-0995-11e7-93ae-92361f002671","name":"julrod092","lastName":"Julian","userName":"Rodriguez"}"""
       }
-    }*/
+    }
   }
 }
 

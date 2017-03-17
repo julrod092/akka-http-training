@@ -31,4 +31,4 @@ trait UserRepository extends ProductionDatabase {
   }
 }
 
-object UserRepository extends UserRepository with ProductionDatabase
+object UserRepository extends UserRepository

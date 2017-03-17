@@ -15,19 +15,20 @@ libraryDependencies ++= {
 
   val akkaHttpV = "10.0.4"
   val phantomV = "2.3.1"
-  val circeVersion = "0.7.0"
+  val circeV = "0.7.0"
 
   Seq(
     "com.typesafe.akka"   %% "akka-http"            % akkaHttpV,
     "com.outworkers"      %% "phantom-dsl"          % phantomV,
-    "io.circe"            %% "circe-core"           % circeVersion,
-    "io.circe"            %% "circe-parser"         % circeVersion,
-    "io.circe"            %% "circe-generic"        % circeVersion,
+    "io.circe"            %% "circe-core"           % circeV,
+    "io.circe"            %% "circe-parser"         % circeV,
+    "io.circe"            %% "circe-generic"        % circeV,
     "de.heikoseeberger"   %% "akka-http-circe"      % "1.13.0",
     // Test
     "com.typesafe.akka"   %% "akka-http-testkit"    % akkaHttpV     % "test",
     "org.scalactic"       %% "scalactic"            % "3.0.1"       % "test",
-    "org.scalatest"       %% "scalatest"            % "3.0.1"       % "test"
+    "org.scalatest"       %% "scalatest"            % "3.0.1"       % "test",
+    "org.mockito"         %  "mockito-core"         % "2.7.17"      % "test"
   )
 }
 
