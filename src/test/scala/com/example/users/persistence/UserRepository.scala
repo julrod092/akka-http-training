@@ -17,6 +17,14 @@ trait UserRepository {
   def add(user: UserDTO): Future[UserDTO] = {
     Future(user)
   }
+
+  def update(user: UserDTO): Future[UserDTO] = {
+    add(user)
+  }
+
+  def delete(userName: String) : Future[String] = {
+    Future(userName)
+  }
 }
 
 object UserRepository extends UserRepository

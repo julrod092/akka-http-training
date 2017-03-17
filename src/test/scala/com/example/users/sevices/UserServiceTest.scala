@@ -39,10 +39,10 @@ class UserServiceTest extends WordSpec with Matchers with ScalatestRouteTest {
       }
     }
 
-    "Insert a user" in {
+    "Allow insert a user" in {
 
       val jsonRequest = ByteString(
-        """{"id": "67856d17-2724-49b0-ad76-f6ccc6390b58","userName": "julrod0921","name": "Julian","lastName": "Rodriguez"}""".stripMargin
+        """{"id": "67856d17-2724-49b0-ad76-f6ccc6390b58","userName": "julrod092","name": "Julian","lastName": "Rodriguez"}""".stripMargin
       )
 
       val postRequest = HttpRequest(
@@ -51,7 +51,29 @@ class UserServiceTest extends WordSpec with Matchers with ScalatestRouteTest {
         entity = HttpEntity(MediaTypes.`application/json`, jsonRequest))
 
       postRequest ~> userRoute.route ~> check {
-        responseAs[String] shouldEqual "User created: julrod0921"
+        responseAs[String] shouldEqual "User created: julrod092"
+      }
+    }
+
+    "Allow update a user" in {
+
+      val jsonRequest = ByteString(
+        """{"id": "67856d17-2724-49b0-ad76-f6ccc6390b58","userName": "julrod092","name": "Julian","lastName": "Rodriguez"}""".stripMargin
+      )
+
+      val postRequest = HttpRequest(
+        HttpMethods.PUT,
+        uri = "/user",
+        entity = HttpEntity(MediaTypes.`application/json`, jsonRequest))
+
+      postRequest ~> userRoute.route ~> check {
+        responseAs[String] shouldEqual "User updated: julrod092"
+      }
+    }
+
+    "Allow delete a user" in {
+      Delete("/user/julrod092") ~> userRoute.route ~> check {
+        responseAs[String] shouldEqual "User deleted: julrod092"
       }
     }
   }
