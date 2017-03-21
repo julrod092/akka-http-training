@@ -7,6 +7,7 @@ import com.example.infrastructure.database.{Cassandra, EmbeddedDatabase}
 import com.example.infrastructure.dto.UserDTO
 import com.example.users.util.CassandraSpecs
 
+import scala.concurrent.Await
 import scala.concurrent.duration._
 
 class UserDAOTest extends CassandraSpecs with EmbeddedDatabase with Cassandra.testConnector.Connector {
@@ -51,7 +52,7 @@ class UserDAOTest extends CassandraSpecs with EmbeddedDatabase with Cassandra.te
 
     val user = UserDTO(UUID.fromString("f095fb92-0e4e-11e7-93ae-92361f002671"), "Julian", "Rodriguez", "julrod092")
 
-    database.userDAO.storeUser(user)
+    Await.result(database.userDAO.storeUser(user), Duration.Inf)
     val future = database.userDAO.getUserByUserName(user.userName)
 
     whenReady(future) { result =>
@@ -65,8 +66,8 @@ class UserDAOTest extends CassandraSpecs with EmbeddedDatabase with Cassandra.te
     val user = UserDTO(UUID.fromString("f095fb92-0e4e-11e7-93ae-92361f002671"), "Julian", "Rodriguez", "julrod092")
     val update = user.copy(name = "Pedro")
 
-    database.userDAO.storeUser(user)
-    database.userDAO.storeUser(update)
+    Await.result(database.userDAO.storeUser(user), Duration.Inf)
+    Await.result(database.userDAO.storeUser(update), Duration.Inf)
     val future = database.userDAO.getUserByUserName(user.userName)
 
     whenReady(future) { result =>
@@ -79,8 +80,8 @@ class UserDAOTest extends CassandraSpecs with EmbeddedDatabase with Cassandra.te
 
     val user = UserDTO(UUID.fromString("f095fb92-0e4e-11e7-93ae-92361f002671"), "Julian", "Rodriguez", "julrod0921")
 
-    database.userDAO.storeUser(user)
-    database.userDAO.deleteUser(user.userName)
+    Await.result(database.userDAO.storeUser(user), Duration.Inf)
+    Await.result(database.userDAO.deleteUser(user.userName), Duration.Inf)
     val future = database.userDAO.getUserByUserName(user.userName)
 
     whenReady(future) { result =>
