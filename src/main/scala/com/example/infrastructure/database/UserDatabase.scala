@@ -23,7 +23,6 @@ trait ProductionDatabase extends ProductionDatabaseProvider {
 
 object ProductionDB extends UserDatabase(cassandraConnector)
 
-
 // Test
 
 object EmbeddedDb extends UserDatabase(testConnector)

@@ -15,7 +15,7 @@ resolvers ++= Seq(
 libraryDependencies ++= {
 
   val akkaHttpV = "10.0.4"
-  val phantomV = "2.3.1"
+  val phantomV = "2.5.0"
   val circeV = "0.7.0"
 
 
@@ -28,11 +28,12 @@ libraryDependencies ++= {
     "de.heikoseeberger"   %% "akka-http-circe"      % "1.13.0",
     // Test
     "com.typesafe.akka"   %% "akka-http-testkit"    % akkaHttpV     % "test",
-    "com.outworkers"      % "util-testing_2.12"     % "0.30.1"      % "test",
+    "com.outworkers"      %  "util-testing_2.12"    % "0.30.1"      % "test",
     "org.scalactic"       %% "scalactic"            % "3.0.1"       % "test",
     "org.scalatest"       %% "scalatest"            % "3.0.1"       % "test",
-    "org.mockito"         %  "mockito-core"         % "2.7.17"      % "test"
+    "org.cassandraunit"   % "cassandra-unit"        % "3.1.3.2"     % "test"
   )
 }
 
 coverageEnabled := true
+PhantomSbtPlugin.projectSettings

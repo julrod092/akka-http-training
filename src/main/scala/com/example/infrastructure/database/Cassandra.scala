@@ -1,6 +1,7 @@
 package com.example.infrastructure.database
 
-import com.outworkers.phantom.connectors.{CassandraConnection, ContactPoint, ContactPoints}
+import com.outworkers.phantom.connectors.{CassandraConnection, ContactPoints}
+import com.outworkers.phantom.dsl.ContactPoint
 import com.typesafe.config.ConfigFactory
 
 import scala.collection.JavaConverters._

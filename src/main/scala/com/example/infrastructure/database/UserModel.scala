@@ -16,6 +16,6 @@ class UserModel extends CassandraTable[UserDAO, UserDTO] {
 
   object lastName extends StringColumn(this)
 
-  override def fromRow(r: Row): UserDTO = UserDTO(id(r), userName(r), name(r), lastName(r))
+  override def fromRow(r: Row): UserDTO = UserDTO(id(r), name(r), lastName(r), userName(r))
 }
 
