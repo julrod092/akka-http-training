@@ -20,20 +20,21 @@ libraryDependencies ++= {
 
 
   Seq(
-    "com.typesafe.akka"   %% "akka-http"            % akkaHttpV,
-    "com.outworkers"      %% "phantom-dsl"          % phantomV,
-    "io.circe"            %% "circe-core"           % circeV,
-    "io.circe"            %% "circe-parser"         % circeV,
-    "io.circe"            %% "circe-generic"        % circeV,
-    "de.heikoseeberger"   %% "akka-http-circe"      % "1.13.0",
+    "com.typesafe.akka"   %% "akka-http"          % akkaHttpV,
+    "com.outworkers"      %% "phantom-dsl"        % phantomV,
+    "io.circe"            %% "circe-core"         % circeV,
+    "io.circe"            %% "circe-parser"       % circeV,
+    "io.circe"            %% "circe-generic"      % circeV,
+    "de.heikoseeberger"   %% "akka-http-circe"    % "1.13.0",
+    "com.typesafe.akka"   %% "akka-stream-kafka"  % "0.14",
     // Test
-    "com.typesafe.akka"   %% "akka-http-testkit"    % akkaHttpV     % "test",
-    "com.outworkers"      %  "util-testing_2.12"    % "0.30.1"      % "test",
-    "org.scalactic"       %% "scalactic"            % "3.0.1"       % "test",
-    "org.scalatest"       %% "scalatest"            % "3.0.1"       % "test",
-    "org.cassandraunit"   % "cassandra-unit"        % "3.1.3.2"     % "test"
+    "com.typesafe.akka"   %% "akka-http-testkit" % akkaHttpV  % "test",
+    "com.outworkers"      %  "util-testing_2.12" % "0.30.1"   % "test",
+    "org.scalactic"       %% "scalactic"         % "3.0.1"    % "test",
+    "org.scalatest"       %% "scalatest"         % "3.0.1"    % "test",
+    "org.cassandraunit"   % "cassandra-unit"     % "3.1.3.2"  % "test"
   )
 }
 
 coverageEnabled := true
-PhantomSbtPlugin.projectSettings
+//PhantomSbtPlugin.projectSettings

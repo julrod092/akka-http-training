@@ -1,7 +1,7 @@
 package com.example.users.services
 
+import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.model.StatusCodes._
-import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.{Directives, Route}
 import com.example.infrastructure.dto.UserDTO
 import com.example.users.persistence.UserRepository
@@ -17,29 +17,26 @@ class UserRoute(userRepository: UserRepository)(implicit private val ec: Executi
       get {
         complete(userRepository.fetch(username))
       } ~
-      delete {
-        complete(userRepository.delete(username).map(future =>
-          HttpResponse(OK, entity = s"User deleted: $future")
-        ).recover{case e: Exception => HttpResponse(BadRequest, entity = e.toString)})
-      }
+        delete {
+          complete(userRepository.delete(username).map(future => (OK, s"User deleted: $future"))
+            .recover { case e: Exception => (OK, e.toString) })
+        }
     } ~
-    path("user") {
-      post {
-        entity(as[UserDTO]) { user =>
-          complete(userRepository.add(user).map(future =>
-            HttpResponse(OK, entity = s"User created: ${future.userName}")
-          ).recover{case e: Exception => HttpResponse(BadRequest, entity = e.toString)})
-        }
-      } ~
-      put {
-        entity(as[UserDTO]) { user =>
-          complete(userRepository.update(user).map(future =>
-            HttpResponse(OK, entity = s"User updated: ${future.userName}")
-          ).recover{case e: Exception => HttpResponse(BadRequest, entity = e.toString)})
-        }
-      } ~
-      get {
-        complete(StatusCodes.OK)
+      path("user") {
+        post {
+          entity(as[UserDTO]) { user =>
+            complete(userRepository.add(user).map(future => )
+              .recover { case e: Exception => (OK, e.toString) })
+          }
+        } ~
+          put {
+            entity(as[UserDTO]) { user =>
+              complete(userRepository.update(user).map(future => (OK, s"User updated: ${future.userName}"))
+                .recover { case e: Exception => (OK, e.toString) })
+            }
+          } ~
+          get {
+            complete(StatusCodes.OK)
+          }
       }
-  }
 }
