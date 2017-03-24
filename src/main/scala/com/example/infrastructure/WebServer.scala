@@ -4,6 +4,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import com.example.infrastructure.database.ProductionDatabase
+import com.example.infrastructure.kafka.KafkaConsumer
 import com.example.users.persistence.UserRepository
 import com.example.users.services.UserRoute
 
@@ -22,6 +23,7 @@ object WebServer extends App with ProductionDatabase {
 
   val bindingFuture = Http().bindAndHandle(userRoute.route, "localhost", 8080)
   println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
+  KafkaConsumer
   StdIn.readLine()
 
   bindingFuture

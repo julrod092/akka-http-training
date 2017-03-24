@@ -15,11 +15,11 @@ class KafkaProducer(implicit ec: ExecutionContextExecutor, system: ActorSystem, 
   private val producerSettings = ProducerSettings(system, new ByteArraySerializer, new StringSerializer)
     .withBootstrapServers("localhost:9092")
 
-  def sendMessage(userName: String): String = {
-    val message = s"User created: $userName"
+  def sendMessage(userName: String, method:String): String = {
+    val message = s"User $method: $userName"
     Source.single(message)
       .map { msg =>
-        new ProducerRecord[Array[Byte], String]("test", msg)
+        new ProducerRecord[Array[Byte], String]("users", msg)
       }
       .runWith(Producer.plainSink(producerSettings))
     message

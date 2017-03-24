@@ -10,7 +10,7 @@ import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeser
 /**
   * Created by seven4n on 23/03/17.
   */
-object KafkaConsumer extends App {
+object KafkaConsumer {
 
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
@@ -21,7 +21,7 @@ object KafkaConsumer extends App {
     .withGroupId("group1")
     .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 
-  Consumer.committableSource(consumerSettings, Subscriptions.topics("test"))
+  Consumer.committableSource(consumerSettings, Subscriptions.topics("users"))
     .runForeach(msg =>
       println(msg.record.value))
 }

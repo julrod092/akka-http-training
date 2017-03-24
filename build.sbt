@@ -37,4 +37,4 @@ libraryDependencies ++= {
 }
 
 coverageEnabled := true
-//PhantomSbtPlugin.projectSettings
+PhantomSbtPlugin.projectSettings
