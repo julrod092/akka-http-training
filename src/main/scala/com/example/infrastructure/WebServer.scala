@@ -23,7 +23,7 @@ object WebServer extends App with ProductionDatabase {
 
   val bindingFuture = Http().bindAndHandle(userRoute.route, "localhost", 8080)
   println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
-  KafkaConsumer
+  KafkaConsumer.reciever
   StdIn.readLine()
 
   bindingFuture
