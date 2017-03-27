@@ -8,20 +8,20 @@ import akka.stream.scaladsl.Source
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.{ByteArraySerializer, StringSerializer}
 
-import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.{ExecutionContextExecutor, Future}
 
 class KafkaProducer(implicit ec: ExecutionContextExecutor, system: ActorSystem, materializer: ActorMaterializer) {
 
   private val producerSettings = ProducerSettings(system, new ByteArraySerializer, new StringSerializer)
     .withBootstrapServers("localhost:9092")
 
-  def sendMessage(userName: String, method:String): String = {
+  def sendMessage(userName: String, method:String): Future[String] = {
     val message = s"User $method: $userName"
     Source.single(message)
       .map { msg =>
         new ProducerRecord[Array[Byte], String]("users", msg)
       }
       .runWith(Producer.plainSink(producerSettings))
-    message
+      .map(sucess => message)
   }
 }

@@ -10,7 +10,7 @@ import com.example.users.persistence.UserRepository
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
 
-import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.{ExecutionContextExecutor, Future}
 
 class UserRoute(userRepository: UserRepository)(implicit ec: ExecutionContextExecutor, system: ActorSystem, materializer: ActorMaterializer) extends Directives {
 
@@ -21,21 +21,21 @@ class UserRoute(userRepository: UserRepository)(implicit ec: ExecutionContextExe
         complete(userRepository.fetch(userName))
       } ~
         delete {
-          complete(userRepository.delete(userName).map(future => (StatusCodes.OK, kafka.sendMessage(userName, "deleted")))
-            .recover { case e => (StatusCodes.PartialContent, e.getMessage) })
+          complete(userRepository.delete(userName).map(future => (StatusCodes.OK, kafka.sendMessage(future, "deleted")))
+            .recover { case e => (StatusCodes.PartialContent, Future(e.getMessage)) })
         }
     } ~
     path("user") {
       post {
         entity(as[UserDTO]) { user =>
           complete(userRepository.add(user).map(future => (StatusCodes.OK, kafka.sendMessage(future.userName, "created")))
-            .recover { case e => (StatusCodes.PartialContent, e.getMessage) })
+            .recover { case e => (StatusCodes.PartialContent, Future(e.getMessage)) })
         }
       } ~
       put {
         entity(as[UserDTO]) { user =>
           complete(userRepository.update(user).map(future => (StatusCodes.OK, kafka.sendMessage(future.userName, "updated")))
-            .recover { case e => (StatusCodes.PartialContent, e.getMessage) })
+            .recover { case e => (StatusCodes.PartialContent, Future(e.getMessage)) })
         }
       } ~
       get {
